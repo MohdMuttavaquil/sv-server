@@ -29,7 +29,7 @@ app.use('/api/cart', cartRoute)
 
 
 app.get('/', (req, res)=>{
-   res.send("Servier is running ")
+   res.send("Servier is running check on aws ec2")
 })
 
 app.listen(PORT, ()=>{
