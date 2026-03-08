@@ -17,7 +17,6 @@ jobs:
             DB_CONNACTION: ${{ secrets.DB_CONNACTION }} 
             RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
           run: |
-            cd backend
             npm install
             npm start & 
             sleep 5
