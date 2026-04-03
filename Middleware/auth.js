@@ -22,6 +22,9 @@ const authMiddleware = async (req, res, next) => {
         next()
     } catch (error) {
         console.log(error)
+        if(error.name == "TokenExpiredError"){
+            return res.json({ success: false, message: "Token expired, login" })
+        }
         return res.json({ success: false, message: "Somr error" })
     }
 }

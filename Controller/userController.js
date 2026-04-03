@@ -5,9 +5,8 @@ import validator from "validator"
 
 const createToken = (id, name) => {
     return Jwt.sign({ id: id, name: name }, process.env.JWT_SECRET,
-        { expiresIn: "1d" }
+        { expiresIn: "1h" }
     )
-
 }
 
 const singIn = async (req, res) => {
