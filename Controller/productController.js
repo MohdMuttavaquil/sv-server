@@ -11,7 +11,7 @@ const addProduct = async (req, res) => {
 
     //Upload Image on cloudinary
     if (!req.files || req.files.length === 0) {
-      return res.json({ success: false, message: "Please upload images" });
+      return res.status(400).json({ success: false, message: "Please upload images" });
     }
 
     const uploadToCloudinary = (fileBuffer) => {
@@ -58,11 +58,11 @@ const addProduct = async (req, res) => {
 
     await newProduct.save()
 
-    return res.json({ success: true, message: "Product uploaded successfully" });
+    return res.status(200).json({success: true, message: "Product uploaded successfully" });
 
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Some error occurred" });
+    res.status(500).json({ success: false, message: "Some error occurred" });
   }
 };
 
@@ -74,10 +74,10 @@ const allProducts = async (req, res) => {
     const products = await productModel.find({ admainName: name }).select({
       name: 1, price: 1, images: { $slice: 1 }, quantity: 1, desc: 1
     })
-    res.json({ success: true, products })
+    res.status(200).json({success: true, products })
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Some error occurred" });
+    res.status(500).json({ success: false, message: "Some error occurred" });
   }
 
 }
@@ -118,10 +118,10 @@ const editProduct = async (req, res) => {
     }
     await product.save()
 
-    res.json({ success: true, message: "Product Updated" })
+    res.status(200).json({success: true, message: "Product Updated" })
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Some error occurred" });
+    res.status(500).json({ success: false, message: "Some error occurred" });
   }
 }
 
@@ -138,10 +138,10 @@ const deleteProduct = async (req, res) => {
     })
      await productModel.findByIdAndDelete(id)
 
-     res.json({ success: true, message: "Product Deleted"})
+     res.status(200).json({success: true, message: "Product Deleted"})
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Some error occurred" });
+    res.status(500).json({ success: false, message: "Some error occurred" });
   }
 }
 export { addProduct, allProducts, editProduct, deleteProduct }

@@ -5,7 +5,7 @@ const authMiddleware = async (req, res, next) => {
     const { token } = req.headers
 
     if (!token) {
-        return res.json({ success: false, message: "No authorised" })
+        return res.status(401).json({ success: false, message: "Token missing" })
     }
 
     try {
@@ -21,11 +21,13 @@ const authMiddleware = async (req, res, next) => {
 
         next()
     } catch (error) {
-        console.log(error)
-        if(error.name == "TokenExpiredError"){
-            return res.json({ success: false, message: "Token expired, login" })
+        
+        if(error.name === "TokenExpiredError"){
+            return res.status(401).json({ success: false, message: "Invalid token" })
         }
-        return res.json({ success: false, message: "Somr error" })
+
+        console.log(error.name)
+        return res.status(500).json({ success: false, message: "Somr error" })
     }
 }
 

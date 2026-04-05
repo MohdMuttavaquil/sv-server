@@ -4,10 +4,10 @@ const getItems = async (req, res) => {
 
   try {
         const items = await productModel.find().select({ name:1, images: {$slice: 1}}).limit(6)
-        res.json({success: true, items})
+        res.status(200).json({success: true, items})
     } catch (error) {
          console.log(error)
-        res.json({ success: true, message: "some error" })
+        res.status(200).json({success: true, message: "some error" })
     }
 }
 
@@ -18,10 +18,10 @@ const categoryItems = async (req, res) => {
         const items = await productModel.find({ category: category }).select({
             name:1, price:1, images: {$slice: 2}
         })
-        res.json({ success: true, items })
+        res.status(200).json({success: true, items })
     } catch (error) {
         console.log(error)
-        res.json({ success: true, message: "some error" })
+       res.status(500).json({ success: false, message: "Some error" });
     }
 }
 
@@ -36,10 +36,10 @@ const trendingItems = async (req, res) => {
             items.push(item)
         }
 
-        res.json({ success: true, items })
+        res.status(200).json({success: true, items })
     } catch (error) {
         console.log(error)
-        res.json({ success: true, message: "some error" })
+       res.status(500).json({ success: false, message: "Some error" });
     }
 }
 
@@ -48,10 +48,10 @@ const itemById = async (req, res) => {
    
     try {
         const item = await productModel.findById(id)
-        res.json({ success: true, item })
+        res.status(200).json({success: true, item })
     } catch (error) {
         console.log(error)
-        res.json({ success: true, message: "some error" })
+       res.status(500).json({ success: false, message: "Some error" });
     }
 }
 
@@ -62,10 +62,10 @@ const homeSuggestion = async(req, res)=>{
     try {
          const items = await productModel.find({ category: category }).select({
             name:1, price:1, images: {$slice: 1} }).limit(3)
-            res.json({ success: true, items })
+            res.status(200).json({success: true, items })
     } catch (error) {
         console.log(error)
-        res.json({ success: true, message: "some error" })
+       res.status(500).json({ success: false, message: "Some error" });
     }
 }
 

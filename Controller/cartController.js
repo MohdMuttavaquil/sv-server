@@ -7,7 +7,7 @@ const userCart = async(req, res)=>{
   try {
     const user = await userModel.findById(id)
     const cart = user.cart
-    res.json({success: true, cart})
+    res.status(200).json({success: true, cart})
   } catch (error) {
      console.log(error)
     res.json({ success: false, message: "some error" })
@@ -22,7 +22,7 @@ const addInCart = async (req, res) => {
  
     try {
         const user = await userModel.findByIdAndUpdate(id, { $push: { cart: itemId } }, { new: true })
-        res.json({ success: true, message: "Item added succesfully" })
+        res.status(200).json({success: true, message: "Item added succesfully" })
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: "some error" })
@@ -36,10 +36,10 @@ const removeInCart = async (req, res) => {
     try {
        const user = await userModel.findByIdAndUpdate(id, { $pull: { cart: itemId } }, { new: true })
         const userCart = user.cart
-        res.json({ success: true, userCart })
+        res.status(200).json({success: true, userCart })
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: "some error" })
+       res.status(500).json({ success: false, message: "some error" })
     }
 }
 

@@ -20,10 +20,10 @@ const onlinePay = async (req, res) => {
 
     try {
         const order = await razorpay.orders.create(options)
-        res.json(order)
+        res.status(200).json(order)
     } catch (error) {
         console.log(error)
-        res.json({ sucess: false, message: "some error to create order" })
+        res.status(500).json({ sucess: false, message: "some error to create order" })
     }
 }
 
@@ -40,14 +40,14 @@ const verifyPay = async (req, res) => {
             .digest("hex");
 
         if (expectedSignature === signature) {
-            res.json({ success: true, message: "payment verification successfull" });
+            res.status(200).json({success: true, message: "payment verification successfull" });
         } else {
-            res.json({ success: false, message: "Payment verification failed" });
+             res.status(500).json({ success: false, message: "Payment verification failed" });
         }
 
     } catch (error) {
         console.log(error)
-        res.json({ sucess: false, message: "some error for verify" })
+        res.status(500).json({ sucess: false, message: "some error for verify" })
     }
 }
 
@@ -70,10 +70,10 @@ const order = async (req, res) => {
 
         await newOrder.save()
         
-        res.json({ success: true, message: "Thanks for order" })
+        res.status(200).json({success: true, message: "Thanks for order" })
     } catch (error) {
         console.log(error)
-        res.json({ sucess: false, message: "some error" })
+        res.status(500).json({ sucess: false, message: "some error" })
     }
 }
 

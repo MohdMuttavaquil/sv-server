@@ -5,7 +5,7 @@ import validator from "validator"
 
 const createToken = (id, name) => {
     return Jwt.sign({ id: id, name: name }, process.env.JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "2h" }
     )
 }
 
@@ -15,12 +15,12 @@ const singIn = async (req, res) => {
 
     try {
         if (!validator.isEmail(email)) {
-            return res.json({ success: false, message: "enter valid email" })
+            return res.status(400).json({ success: false, message: "enter valid email" })
         }
 
         const existUser = await userModel.findOne({ email: email })
         if (existUser) {
-            return res.json({ success: false, message: "user already exist" })
+            return res.status(200).json({ success: false, message: "user already exist" })
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -36,10 +36,10 @@ const singIn = async (req, res) => {
         await newUser.save()
         const role = newUser.role
         const token = createToken(newUser._id, newUser.name)
-        res.json({ success: true, token, role })
+        res.status(201).json({ success: true, token, role })
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: "some error" })
+        res.status(500).json({ success: false, message: "some error" })
     }
 }
 
@@ -51,20 +51,20 @@ const login = async (req, res) => {
         const existUser = await userModel.findOne({ email: email })
 
         if (!existUser) {
-            return res.json({ success: false, message: "Enter valid email" })
+            return res.status(404).json({ success: false, message: "User Not Fonud" })
         }
 
         const checkPassword = await bcrypt.compare(password, existUser.password)
         if (!checkPassword) {
-            return res.json({ success: false, message: "Password is wrong" })
+            return res.status(400).json({ success: false, message: "Password is wrong" })
         }
         const token = createToken(existUser._id, existUser.name)
         const role = existUser.role
-        res.json({ success: true, token, role })
+        res.status(200).json({ success: true, token, role })
 
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: "some error" })
+        res.status(500).json({ success: false, message: "some error" })
     }
 }
 
@@ -74,12 +74,21 @@ const userInfo = async (req, res)=>{
    
     try {
         const user = await userModel.findById(id).select('name email role')
-        res.json({success: true, user})
+        res.status(200).json({success: true, user})
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: "some error" })
+        res.status(500).json({ success: false, message: "some error" })
+    }
+}
+
+const check = async (req,res) =>{
+    try {
+        res.status(200).json({success: true, message: "Token not expire"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ success: false, message: "some error" })
     }
 }
 
 
-export { singIn, login, userInfo } 
+export { singIn, login, userInfo, check } 
