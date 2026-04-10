@@ -27,7 +27,7 @@ const categoryItems = async (req, res) => {
 
 const trendingItems = async (req, res) => {
 
-    let a = [ '6942aa84aa245a8186cdda75', '6942ab81aa245a8186cdda77', '6942ae21131bb91e065472eb', '6942af34131bb91e065472ef', '695cbaa4cee6e2f91b4ac3b3', '6942b30f131bb91e065472fc' ]
+    let a = [ '6942aa84aa245a8186cdda75', '6942ab81aa245a8186cdda77', '6942ae21131bb91e065472eb', '6942af34131bb91e065472ef', '695cbaa4cee6e2f91b4ac3b3', '6942b30f131bb91e065472fc', '69624dace235635ec1a0a678', '6942b007131bb91e065472f2' ]
     let items = []
 
     try {
