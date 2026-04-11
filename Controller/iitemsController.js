@@ -3,7 +3,7 @@ import productModel from "../Model/productSchema.js";
 const getItems = async (req, res) => {
 
   try {
-        const items = await productModel.find().select({ name:1, images: {$slice: 1}}).limit(6)
+        const items = await productModel.find().select({ name:1, images: {$slice: 1}}).limit(8)
         res.status(200).json({success: true, items})
     } catch (error) {
          console.log(error)
@@ -61,7 +61,7 @@ const homeSuggestion = async(req, res)=>{
 
     try {
          const items = await productModel.find({ category: category }).select({
-            name:1, price:1, images: {$slice: 1} }).limit(3)
+            name:1, price:1, images: {$slice: 1} }).limit(4)
             res.status(200).json({success: true, items })
     } catch (error) {
         console.log(error)
